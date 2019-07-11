@@ -1,9 +1,12 @@
-const fetch = require("node-fetch")
+require("dotenv").config({
+    path: `.env.${process.env.NODE_ENV}`,
+  })
+    const fetch = require("node-fetch")
 const queryString = require("query-string")
 const { createRemoteFileNode } = require(`gatsby-source-filesystem`)
 
-const server = 'http://jam-twill.test/';
-
+const server = process.env.API_URL;
+console.log(process.env.API_URL)
 exports.sourceNodes = (
   { actions, createNodeId, createContentDigest  }
 ) => {
