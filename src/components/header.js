@@ -2,11 +2,14 @@ import { Link } from "gatsby"
 import PropTypes from "prop-types"
 import React from "react"
 
+import { jsx, Box } from 'theme-ui'
+
 const Header = ({ siteTitle }) => (
-  <header
-    style={{
-      background: `rebeccapurple`,
-      marginBottom: `1.45rem`,
+  <Box
+    sx={{
+      color: 'white',
+      bg: 'primary',
+      fontSize: 4,
     }}
   >
     <div
@@ -28,7 +31,7 @@ const Header = ({ siteTitle }) => (
         </Link>
       </h1>
     </div>
-  </header>
+  </Box>
 )
 
 Header.propTypes = {
