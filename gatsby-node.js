@@ -1,8 +1,8 @@
 require("dotenv").config({
-    path: `.env.${process.env.NODE_ENV}`,
-  })
-    const fetch = require("node-fetch")
-const queryString = require("query-string")
+  path: `.env.${process.env.NODE_ENV}`,
+})
+   
+const fetch = require("node-fetch")
 const { createRemoteFileNode } = require(`gatsby-source-filesystem`)
 
 const server = process.env.API_URL;
@@ -15,10 +15,15 @@ exports.sourceNodes = (
   // create nodes for each project
   const processProject = project => {
     const nodeId = createNodeId(`project-${project.id}`);
-   
-    const medias = project.medias
+    
+    // cache the project data so we can mutate it
     let projectData = project;
+    // reset project media object to clean up the query
+    const medias = project.medias;
     projectData.medias=[];
+    // reset project blocks object to clean up the query
+    const blocks = project.blocks;
+    projectData.blocks=[];
   
   
     // prep
@@ -34,8 +39,25 @@ exports.sourceNodes = (
       },
       medias: null
     })
+
+    createNode(nodeData);
+
+    // procress the medias at the top level
+    processMedias(medias,nodeData,nodeId);
+    processBlocks(blocks,nodeData,nodeId);
     
-    return {node : nodeData, medias : medias}
+
+    //return {node : nodeData, medias : medias}
+  }
+
+  // go through the medias object
+  const processMedias = (medias,parentNode,parentnNodeId) => {
+    // go through the project to get media, download and convert
+    medias !=null && medias.length > 0 && medias.forEach(media=> {
+      const MediaNodeData = processMedia(media, parentnNodeId)
+      createNode(MediaNodeData);
+      createParentChildLink({ parent: parentNode, child: MediaNodeData })
+    })
   }
 
   // process media blocks
@@ -56,6 +78,45 @@ exports.sourceNodes = (
     return nodeData
   }
 
+  // go through the medias object
+  const processBlocks = (blocks,parentNode,parentnNodeId) => {
+    // go through the project to get media, download and convert
+   blocks !=null && blocks.length > 0 && blocks.forEach(block=> {
+      const BlockNodeData = processBlock(block, parentnNodeId)
+      createNode(BlockNodeData);
+      createParentChildLink({ parent: parentNode, child: BlockNodeData })
+    })
+  }
+
+  // process  blocks
+  const processBlock =( block, nodeParent) => {
+
+    // cache the project data so we can mutate it
+    let blockData = block;
+    // reset project media object to clean up the query
+    const medias = block.medias;
+    blockData.medias=[];
+    
+    const nodeId = createNodeId(`block-${block.id}`)
+    const nodeContent = JSON.stringify(blockData)
+    const nodeData = Object.assign({}, blockData, {
+      id: nodeId,
+      parentNodeId: nodeParent,
+      children: [],
+      internal: {
+        type: `Block`,
+        content: nodeContent,
+        contentDigest: createContentDigest(blockData),
+      },
+      media: null
+    })
+
+    processMedias(medias,nodeData,nodeId);
+
+    return nodeData
+  }
+
+
   // Join apiOptions with the Pixabay API URL
   const apiUrl = `${server}projects`
   // Gatsby expects sourceNodes to return a promise
@@ -71,14 +132,7 @@ exports.sourceNodes = (
             
             // create a project node
             const projectNode = processProject(project);
-            createNode(projectNode.node);
-
-            // go through the project to get media, download and convert
-            projectNode.medias.length > 0 && projectNode.medias.forEach(media=> {
-                const MediaNodeData = processMedia(media, projectNode.node.id)
-                createNode(MediaNodeData);
-                createParentChildLink({ parent: projectNode.node, child: MediaNodeData })
-            })
+           
                 
         })
       })
@@ -112,6 +166,7 @@ exports.createPages = async ({ actions: { createPage }, graphql }) => {
     })
   }
 
+  // Create media file nodes 
   exports.onCreateNode = async ({ node, actions, store, cache }) => {
     const { createNode } = actions
 
@@ -130,5 +185,4 @@ exports.createPages = async ({ actions: { createPage }, graphql }) => {
           node.media___NODE = fileNode.id
         }
       }
-
   }
