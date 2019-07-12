@@ -11,30 +11,30 @@ exports.sourceNodes = (
 ) => {
   const { createNode,createParentChildLink } = actions
 
-  // create nodes for each project
-  const processProject = project => {
+  // create nodes for each section
+  const processSection= (section, type) => {
 
-    const nodeId = createNodeId(`project-${project.id}`);
+    const nodeId = createNodeId(`${type}-${section.id}`);
     
-    // cache the project data so we can mutate it
-    let projectData = project;
-    // reset project media object to clean up the query
-    const medias = project.medias;
-    projectData.medias=[];
-    // reset project blocks object to clean up the query
-    const blocks = project.blocks;
-    projectData.blocks=[];
+    // cache the section data so we can mutate it
+    let sectionData = section;
+    // reset section media object to clean up the query
+    const medias = section.medias;
+    sectionData.medias=[];
+    // reset section blocks object to clean up the query
+    const blocks = section.blocks;
+    sectionData.blocks=[];
   
     // prep
-    const nodeContent = JSON.stringify(projectData)
-    const nodeData = Object.assign({}, projectData, {
+    const nodeContent = JSON.stringify(sectionData)
+    const nodeData = Object.assign({}, sectionData, {
       id: nodeId,
       parent: null,
       children: [],
       internal: {
-        type: `Projects`,
+        type: type,
         content: nodeContent,
-        contentDigest: createContentDigest(project),
+        contentDigest: createContentDigest(section),
       },
       medias: null
     })
@@ -49,7 +49,7 @@ exports.sourceNodes = (
 
   // go through the medias object
   const processMedias = (medias,parentNode,parentnNodeId) => {
-    // go through the project to get media, download and convert
+    // go through the section to get media, download and convert
     medias !=null && medias.length > 0 && medias.forEach(media=> {
       const MediaNodeData = processMedia(media, parentnNodeId)
       createNode(MediaNodeData);
@@ -59,7 +59,7 @@ exports.sourceNodes = (
 
   // process media blocks
   const processMedia =( media, nodeParent) => {
-    const nodeId = createNodeId(`media_${media.id}`)
+    const nodeId = createNodeId(`media-${media.id}`)
     const nodeContent = JSON.stringify(media)
     const nodeData = Object.assign({}, media, {
       id: nodeId,
@@ -77,7 +77,7 @@ exports.sourceNodes = (
 
   // go through the medias object
   const processBlocks = (blocks,parentNode,parentnNodeId) => {
-    // go through the project to get media, download and convert
+    // go through the section to get media, download and convert
    blocks !=null && blocks.length > 0 && blocks.forEach(block=> {
       const BlockNodeData = processBlock(block, parentnNodeId)
       createNode(BlockNodeData);
@@ -88,9 +88,9 @@ exports.sourceNodes = (
   // process  blocks
   const processBlock =( block, nodeParent) => {
 
-    // cache the project data so we can mutate it
+    // cache the section data so we can mutate it
     let blockData = block;
-    // reset project media object to clean up the query
+    // reset section media object to clean up the query
     const medias = block.medias;
     blockData.medias=[];
     
@@ -113,34 +113,52 @@ exports.sourceNodes = (
     return nodeData
   }
 
+const fetchSection = type => {
+   // Join apiOptions with the Pixabay API URL
+   const apiUrl = `${server+type}`
+   // Fetch a response from the apiUrl
+   const query  = fetch(apiUrl)
+   // Parse the response as JSON
+   .then(response => response.json())
+   // Process the JSON data into a node
+   .then(data => {
+     // For each query result (or 'hit')
+     data.forEach(section => {
+         // create a section node
+         processSection(section, type);
+     })
+   })
+   return query
+}
+ 
+  
+  // what pages to all (arguably could be further extracted or itself queries and end point)
+  const calls=[
+    fetchSection('projects'),
+    fetchSection('pages')
+  ];
 
-  // Join apiOptions with the Pixabay API URL
-  const apiUrl = `${server}projects`
   // Gatsby expects sourceNodes to return a promise
-  return (
-    // Fetch a response from the apiUrl
-    fetch(apiUrl)
-      // Parse the response as JSON
-      .then(response => response.json())
-      // Process the JSON data into a node
-      .then(data => {
-        // For each query result (or 'hit')
-        data.forEach(project => {
-            
-            // create a project node
-            const projectNode = processProject(project);
-           
-                
-        })
+    return (
+      Promise.all(calls).then(function(results) {
+        return results
       })
-  )
+    )
 }
 
 // create pages
 exports.createPages = async ({ actions: { createPage }, graphql }) => {
-    const results = await graphql(`
+    
+  const results = await graphql(`
       {
         allProjects {
+          edges {
+            node {
+              slug
+            }
+          }
+        }
+        allPages {
           edges {
             node {
               slug
@@ -151,7 +169,7 @@ exports.createPages = async ({ actions: { createPage }, graphql }) => {
     `)
   
     results.data.allProjects.edges.forEach(edge => {
-      const project = edge.node
+      const project = edge.node;
   
       createPage({
         path: `/${project.slug}/`,
@@ -160,12 +178,12 @@ exports.createPages = async ({ actions: { createPage }, graphql }) => {
           slug: project.slug,
         },
       })
-    })
+    });
   }
 
   // Create media file nodes 
   exports.onCreateNode = async ({ node, actions, store, cache }) => {
-    const { createNode } = actions
+    const { createNode } = actions;
 
     if (node.internal.type === 'Media' || node.internal.type === 'Cover') {
 
