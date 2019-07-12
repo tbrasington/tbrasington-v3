@@ -1,12 +1,11 @@
 require("dotenv").config({
   path: `.env.${process.env.NODE_ENV}`,
-})
-   
-const fetch = require("node-fetch")
-const { createRemoteFileNode } = require(`gatsby-source-filesystem`)
+});
+const fetch = require("node-fetch");
+const { createRemoteFileNode } = require(`gatsby-source-filesystem`);
 
 const server = process.env.API_URL;
-console.log(process.env.API_URL)
+
 exports.sourceNodes = (
   { actions, createNodeId, createContentDigest  }
 ) => {
@@ -14,6 +13,7 @@ exports.sourceNodes = (
 
   // create nodes for each project
   const processProject = project => {
+
     const nodeId = createNodeId(`project-${project.id}`);
     
     // cache the project data so we can mutate it
@@ -24,7 +24,6 @@ exports.sourceNodes = (
     // reset project blocks object to clean up the query
     const blocks = project.blocks;
     projectData.blocks=[];
-  
   
     // prep
     const nodeContent = JSON.stringify(projectData)
@@ -40,14 +39,12 @@ exports.sourceNodes = (
       medias: null
     })
 
+    // add the node
     createNode(nodeData);
 
-    // procress the medias at the top level
+    // procress the medias and the blocks at the top level
     processMedias(medias,nodeData,nodeId);
     processBlocks(blocks,nodeData,nodeId);
-    
-
-    //return {node : nodeData, medias : medias}
   }
 
   // go through the medias object
