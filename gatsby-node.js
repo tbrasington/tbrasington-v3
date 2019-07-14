@@ -3,7 +3,6 @@ require("dotenv").config({
 });
 const fetch = require("node-fetch");
 const { createRemoteFileNode } = require(`gatsby-source-filesystem`);
-
 const server = process.env.API_URL;
 
 exports.sourceNodes = (
@@ -167,7 +166,7 @@ exports.createPages = async ({ actions: { createPage }, graphql }) => {
         }
       }
     `)
-  
+      //extract this
     results.data.allProjects.edges.forEach(edge => {
       const project = edge.node;
   

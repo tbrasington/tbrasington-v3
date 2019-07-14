@@ -1,11 +1,40 @@
 import React from "react"
-import { Link } from "gatsby"
+import { Link,graphql } from "gatsby"
 
 import SiteWrapper from "../components/SiteWrapper"
 import Image from "../components/image"
 import SEO from "../components/seo"
 
-const IndexPage = () => (
+export const query = graphql`
+{
+  pages(isHomepage: {eq: 1}) {
+    id
+    title
+    childrenBlock {
+      id
+      content {
+        text
+        galleryType
+      }
+      childrenMedia {
+        id
+        media {
+          childImageSharp {
+            fluid(maxWidth: 3000, quality: 100) {
+              ...GatsbyImageSharpFluid
+            }
+          }
+        }
+        role
+        alt_text
+      }
+    }
+  }
+}
+`
+const IndexPage = ({data}) => {
+  console.log(data.pages)
+  return(
   <SiteWrapper>
     <SEO title="Home" />
     <h1>Hi people</h1>
@@ -17,5 +46,5 @@ const IndexPage = () => (
     <Link to="/page-2/">Go to page 2</Link>
   </SiteWrapper>
 )
-
+}
 export default IndexPage
