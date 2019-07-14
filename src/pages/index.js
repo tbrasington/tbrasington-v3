@@ -1,9 +1,8 @@
 import React from "react"
-import { Link,graphql } from "gatsby"
-
+import { graphql } from "gatsby"
 import SiteWrapper from "../components/SiteWrapper"
-import Image from "../components/image"
 import SEO from "../components/seo"
+import renderBlocks from "../components/blocks"
 
 export const query = graphql`
 {
@@ -12,6 +11,7 @@ export const query = graphql`
     title
     childrenBlock {
       id
+      type
       content {
         text
         galleryType
@@ -27,24 +27,24 @@ export const query = graphql`
         }
         role
         alt_text
+        pivot {
+          metadatas 
+        }
+        role
       }
     }
   }
 }
 `
 const IndexPage = ({data}) => {
-  console.log(data.pages)
   return(
   <SiteWrapper>
     <SEO title="Home" />
-    <h1>Hi people</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
-    <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
-      <Image />
-    </div>
-    <Link to="/page-2/">Go to page 2</Link>
-  </SiteWrapper>
+    
+    {data.pages.childrenBlock.map(block => {
+      return renderBlocks({ data: block })
+    })}
+   </SiteWrapper>
 )
 }
 export default IndexPage

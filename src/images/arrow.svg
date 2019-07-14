@@ -1,0 +1,18 @@
+<svg width='27' height='11' viewBox='0 0 27 11' xmlns='http://www.w3.org/2000/svg'>
+    <g id='Page-4' fill='none' fillRule='evenodd'>
+        <g class='ArrowColour' transform='translate(-1653 -1209)' fill='#171717'
+        fillRule='nonzero'>
+            <g id='Rectangle-2' transform='translate(0 160)'>
+                <g id='Group' transform='translate(240 130)'>
+                    <g id='Control-Bar' transform='translate(1245 916)'>
+                        <g id='Arrow' transform='translate(168 3)'>
+                            <path d='M21,9.50609665 L24.8994949,5.60660172 L21,1.70710678 L21,0.292893219 L26.3137085,5.60660172 L25.6066017,6.3137085 L21,10.9203102 L21,9.50609665 Z'
+                            id='Arrow-Head' />
+                            <rect id='Stem' y='5' width='25' height='1' />
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg> 

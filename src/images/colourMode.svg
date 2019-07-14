@@ -1,0 +1,13 @@
+<svg width='48' height='48' viewBox='0 0 48 48' xmlns='http://www.w3.org/2000/svg'>
+    <g id='Page-4' fill='none' fillRule='evenodd'>
+        <g id='ColourModeIcon' transform='translate(-24 -24)' fillRule='nonzero'
+        stroke='#F6F6F6'>
+            <g id='Roundel' transform='rotate(-180 36 36)'>
+                <circle id='Oval' cx='24' cy='24' r='23.5' />
+                <circle id='Oval' cx='24' cy='24' r='17.5' />
+                <path d='M23.5,13.5116951 C17.9331832,13.7726716 13.5,18.3686231 13.5,24 C13.5,29.6313769 17.9331832,34.2273284 23.5,34.4883049 L23.5,13.5116951 Z'
+                id='Combined-Shape' />
+            </g>
+        </g>
+    </g>
+</svg>

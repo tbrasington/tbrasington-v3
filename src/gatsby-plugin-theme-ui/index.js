@@ -1,40 +1,58 @@
 // default/base theme
 const heading = {
-    color: 'text',
-    fontFamily: 'heading',
-    lineHeight: '1.2',
-    fontWeight: 'heading',
+  color: 'text',
+  fontFamily: 'heading',
+  lineHeight: '1.2',
+  fontWeight: 'heading',
+}
+
+  export const nameSpacedColours = {
+    black: '#111111',
+    darkGrey: '#888888',
+    midGrey: '#c6c1c1',
+    lightGrey: '#E6E4E4',
+    offWhite: '#F6F6F6',
+    yellow: '#FFB909',
+    purple: '#0D084D',
+    royalBlue:'#004CFF'
   }
   
   export default {
     space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
+    breakpoints: [
+       '1024px', 
+    ],
     fonts: {
-      body: 'system-ui, sans-serif',
-      heading: 'inherit',
+      body: 'neue-haas-unica, system-ui, sans-serif',
+      heading: 'neue-haas-unica, system-ui, sans-serif',
       monospace: 'Menlo, monospace',
     },
-    fontSizes: [12, 14, 16, 20, 24, 32, 48, 64, 96],
+    //          0  1  2  3  4  5  6  7  8  9  10 11
+    fontSizes: [10,12,14,16,20,24,32,40,48,56,72,92],
     fontWeights: {
       body: 400,
-      heading: 700,
-      bold: 700,
+      heading: 400,
+      bold: 600,
     },
-    lineHeights: {
+    lineHeights: { 
       body: 1.5,
       heading: 1.125,
-    },
+    }, 
     colors: {
-      text: '#000',
-      background: '#fff',
-      primary: '#07c',
-      secondary: '#30c',
-      muted: '#f6f6f6',
+      text : nameSpacedColours.lightGrey,
+      background : nameSpacedColours.black,
+      muted : nameSpacedColours.lightGrey,
+      mutedText : nameSpacedColours.darkGrey,
+      accent : nameSpacedColours.purple,
+      primary : nameSpacedColours.royalBlue,
       modes: {
         dark: {
-          text: '#fff',
-          background: '#222',
-          primary: '#0cf',
-          secondary: '#90c',
+          text : nameSpacedColours.black,
+          background : nameSpacedColours.offWhite,
+          muted : nameSpacedColours.black,
+          mutedText : nameSpacedColours.offWhite,
+          accent : nameSpacedColours.yellow,
+          primary : nameSpacedColours.royalBlue,
         },
       },
     },
@@ -43,38 +61,40 @@ const heading = {
         fontFamily: 'body',
         lineHeight: 'body',
         fontWeight: 'body',
+        fontSize:  [2,6],
         color: 'text',
-      bg: 'background',
+        bg: 'background',
       },
       h1: {
         ...heading,
-        fontSize: 5,
+        fontSize:  [11,5],
       },
       h2: {
         ...heading,
-        fontSize: 4,
+        fontSize:  [10,4],
       },
       h3: {
         ...heading,
-        fontSize: 3,
+        fontSize:  [9,3],
       },
       h4: {
         ...heading,
-        fontSize: 2,
+        fontSize:  [8,2],
       },
       h5: {
         ...heading,
-        fontSize: 1,
+        fontSize:  [7,1],
       },
       h6: {
         ...heading,
-        fontSize: 0,
+        fontSize: [6,0],
       },
       p: {
         color: 'text',
         fontFamily: 'body',
         fontWeight: 'body',
         lineHeight: 'body',
+        fontSize:  [2,6],
       },
       a: {
         color: 'primary',

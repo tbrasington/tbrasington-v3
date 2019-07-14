@@ -104,7 +104,8 @@ exports.sourceNodes = (
         content: nodeContent,
         contentDigest: createContentDigest(blockData),
       },
-      media: null
+      media: null,
+      type: blockData.type,
     })
 
     processMedias(medias,nodeData,nodeId);
