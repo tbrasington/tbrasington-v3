@@ -2,7 +2,7 @@
 
 import PropTypes from "prop-types"
 import {Link} from 'gatsby'
-import {  jsx,  useColorMode, Layout, Header, Main } from 'theme-ui'
+import {  jsx,  useColorMode, Layout, Header, Main, Footer } from 'theme-ui'
 import './layout.css' 
 import { nameSpacedColours} from '../gatsby-plugin-theme-ui'
 import ColourModeIcon from '../images/colourMode.svg'
@@ -51,6 +51,7 @@ const SiteWrapper = ({  children }) => {
         {children}
       </Main>
     
+    <Footer> &copy; Thomas Brasington</Footer>
     </Layout> 
   )
 }

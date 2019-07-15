@@ -8,10 +8,12 @@ const heading = {
 
   export const nameSpacedColours = {
     black: '#111111',
+    offBlack : "rgba(0,0,0,0.6)",
     darkGrey: '#888888',
     midGrey: '#c6c1c1',
     lightGrey: '#E6E4E4',
     offWhite: '#F6F6F6',
+    white: '#fff',
     yellow: '#FFB909',
     purple: '#0D084D',
     royalBlue:'#004CFF'
@@ -39,7 +41,8 @@ const heading = {
       heading: 1.125,
     }, 
     colors: {
-      text : nameSpacedColours.lightGrey,
+      text : nameSpacedColours.offWhite,
+      hover : nameSpacedColours.offWhite ,
       background : nameSpacedColours.black,
       muted : nameSpacedColours.lightGrey,
       mutedText : nameSpacedColours.darkGrey,
@@ -48,9 +51,10 @@ const heading = {
       modes: {
         dark: {
           text : nameSpacedColours.black,
+          hover : nameSpacedColours.black,
           background : nameSpacedColours.offWhite,
           muted : nameSpacedColours.black,
-          mutedText : nameSpacedColours.offWhite,
+          mutedText : nameSpacedColours.offBlack,
           accent : nameSpacedColours.yellow,
           primary : nameSpacedColours.royalBlue,
         },
@@ -61,7 +65,7 @@ const heading = {
         fontFamily: 'body',
         lineHeight: 'body',
         fontWeight: 'body',
-        fontSize:  [2,6],
+        fontSize:  [2,5],
         color: 'text',
         bg: 'background',
       },
@@ -94,10 +98,10 @@ const heading = {
         fontFamily: 'body',
         fontWeight: 'body',
         lineHeight: 'body',
-        fontSize:  [2,6],
+        fontSize:  [5,2],
       },
       a: {
-        color: 'primary',
+        color: 'primary'
       },
       pre: {
         fontFamily: 'monospace',
@@ -123,5 +127,19 @@ const heading = {
         textAlign: 'left',
         borderBottomStyle: 'solid',
       },
+      Main: {
+        display: 'grid',
+        gridTemplateColumns: 'repeat(12, 1fr)'
+      },
+    
     },
+    textStyles: {
+      SmallParagraph: {
+        color: 'text',
+        fontFamily: 'body',
+        fontWeight: 'body',
+        lineHeight: 'body',
+        fontSize:  2,
+      },
+    }
   }

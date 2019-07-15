@@ -15,6 +15,10 @@ export const query = graphql`
       content {
         text
         galleryType
+        url
+        title
+        fullwidth
+        short_description
       }
       childrenMedia {
         id
