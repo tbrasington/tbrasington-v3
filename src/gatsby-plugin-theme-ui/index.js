@@ -42,6 +42,7 @@ const heading = {
     }, 
     colors: {
       text : nameSpacedColours.offWhite,
+      backgroundText : nameSpacedColours.black,
       hover : nameSpacedColours.offWhite ,
       background : nameSpacedColours.black,
       muted : nameSpacedColours.lightGrey,
@@ -51,10 +52,11 @@ const heading = {
       modes: {
         dark: {
           text : nameSpacedColours.black,
+          backgroundText : nameSpacedColours.offWhite,
           hover : nameSpacedColours.black,
           background : nameSpacedColours.offWhite,
           muted : nameSpacedColours.black,
-          mutedText : nameSpacedColours.offBlack,
+          mutedText : nameSpacedColours.offWhite,
           accent : nameSpacedColours.yellow,
           primary : nameSpacedColours.royalBlue,
         },
@@ -131,6 +133,11 @@ const heading = {
         display: 'grid',
         gridTemplateColumns: 'repeat(12, 1fr)'
       },
+      Footer : {
+        display: 'grid',
+        gridTemplateColumns: 'repeat(12, 1fr)',
+        paddingBottom : [5,6]
+      }
     
     },
     textStyles: {
@@ -141,5 +148,11 @@ const heading = {
         lineHeight: 'body',
         fontSize:  2,
       },
+    },
+    layouts : {
+      GridBox : {
+        display: 'grid',
+        gridTemplateColumns: 'repeat(12, 1fr)'
+      }
     }
   }

@@ -57,6 +57,7 @@ export default ({ data }) => {
               py: [3, 5],
             }}
           >
+           { data.content.title && <Block><Styled.h2 sx={{color:'backgroundText', mb:[3,4]}}>{data.content.title}</Styled.h2></Block>}
             <Gallery
               type={data.content.galleryType}
               assets={data.childrenMedia}
