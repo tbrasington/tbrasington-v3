@@ -5,7 +5,8 @@ import PropTypes from "prop-types"
 import { Link } from "gatsby"
 import { jsx, useColorMode, Layout, Header, Main, Footer, Box } from "theme-ui"
 import { TransitionPortal } from "gatsby-plugin-transition-link"
-import { useTransition, animated } from "react-spring"
+import { useTransition, config, animated } from "react-spring"
+import { Transition } from "react-spring/renderprops"
 
 // theme and css
 import "./layout.css"
@@ -51,7 +52,7 @@ const SiteWrapper = ({ children }) => {
   ]
   // probably should be a json object from the cms
   const MenuLinks = () => (
-    <>
+    <React.Fragment>
       <Link sx={{ color: "text", mb: 3, textDecoration: "none" }} to="/">
         Work
       </Link>
@@ -67,7 +68,7 @@ const SiteWrapper = ({ children }) => {
       >
         Boneyard
       </Link>
-    </>
+    </React.Fragment>
   )
 
   return (
@@ -84,15 +85,15 @@ const SiteWrapper = ({ children }) => {
             bottom: 3,
             right: 3,
             fontSize: 0,
-            lineHeight: '0px',
-            textAlign:'center',
-            justifyContent:'center',
-            alignItems:'center',
-            display:'flex'
+            lineHeight: "0px",
+            textAlign: "center",
+            justifyContent: "center",
+            alignItems: "center",
+            display: "flex",
           }}
           onClick={() => set(!show)}
         >
-         <span>{!show ? "Menu" : "Close"}</span>
+          <span>{!show ? "Menu" : "Close"}</span>
         </div>
 
         {transitions.map(
@@ -167,7 +168,14 @@ const SiteWrapper = ({ children }) => {
         </h1>
       </Header>
 
-      <Main>{children}</Main>
+      <Transition
+        config={config.slow}
+        from={{ opacity: 0, transform : 'translate3d(0%,10%,0)' }}
+        enter={{ opacity: 1,transform : 'translate3d(0%,0,0)' }}
+        leave={{ opacity: 0 ,transform : 'translate3d(0%,-10%,0)'}}
+      >
+        {() => style => <Main style={style}>{children} </Main>}
+      </Transition>
 
       <Footer sx={{ fontSize: 2 }}>
         <Box sx={{ gridColumn: "2  / span 12", mb: 3 }}>
