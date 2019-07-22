@@ -17,6 +17,7 @@
     "gatsby-plugin-react-svg": "^2.1.1",
     "gatsby-plugin-sharp": "^2.2.3",
     "gatsby-plugin-theme-ui": "^0.2.6",
+    "gatsby-plugin-transition-link": "^1.12.4",
     "gatsby-source-filesystem": "^2.1.2",
     "gatsby-transformer-sharp": "^2.2.1",
     "node-fetch": "^2.6.0",
@@ -25,6 +26,7 @@
     "react-dom": "^16.8.6",
     "react-helmet": "^5.2.1",
     "react-player": "^1.11.1",
+    "react-spring": "^8.0.27",
     "theme-ui": "^0.2.10"
   },
   "devDependencies": {

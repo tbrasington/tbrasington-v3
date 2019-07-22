@@ -103,7 +103,8 @@ const heading = {
         fontSize:  [5,2],
       },
       a: {
-        color: 'primary'
+        color: 'primary',
+        textDecoration : 'none'
       },
       pre: {
         fontFamily: 'monospace',
@@ -147,7 +148,7 @@ const heading = {
         fontWeight: 'body',
         lineHeight: 'body',
         fontSize:  2,
-      },
+      }
     },
     layouts : {
       GridBox : {
