@@ -1,17 +1,18 @@
 /** @jsx jsx */
-import React, { useState } from "react"
 
 import PropTypes from "prop-types"
 import { Link } from "gatsby"
-import { jsx, useColorMode, Layout, Header, Main, Footer, Box } from "theme-ui"
-import { TransitionPortal } from "gatsby-plugin-transition-link"
-import { useTransition, config, animated } from "react-spring"
+import { jsx, useColorMode, Layout, Header, Main } from "theme-ui"
+import { config } from "react-spring"
 import { Transition } from "react-spring/renderprops"
-
+import {smallScreen} from '../utils'
 // theme and css
 import "./layout.css"
 import { nameSpacedColours } from "../gatsby-plugin-theme-ui"
 import ColourModeIcon from "../images/colourMode.svg"
+
+// components
+import { SmallScreenMenu, LargeScreenMenu, FooterContent } from "./navigation"
 
 // colour mode function
 const SiteWrapper = ({ children }) => {
@@ -20,112 +21,9 @@ const SiteWrapper = ({ children }) => {
     setMode(mode === "dark" ? "light" : "dark")
   }
 
-  // showing the menu modal
-  const [show, set] = useState(false)
-  const transitions = useTransition(show, null, {
-    from: {
-      position: "absolute",
-      transform: "translate3d(0,100%,0)",
-      opacity: 0,
-    },
-    enter: { opacity: 1, transform: "translate3d(0%,0%,0)" },
-    leave: { opacity: 0, transform: "translate3d(0%,50%,0)" },
-  })
-
-  const NetWorkLinks = [
-    {
-      name: "Github",
-      url: "https://github.com/tbrasington",
-    },
-    {
-      name: "Twitter",
-      url: "https://twitter.com/tbrasington",
-    },
-    {
-      name: "Instagram",
-      url: "https://instagram.com/tbrasington",
-    },
-    {
-      name: "LinkedIn",
-      url: "https://uk.linkedin.com/in/thomasbrasington",
-    },
-  ]
-  // probably should be a json object from the cms
-  const MenuLinks = () => (
-    <React.Fragment>
-      <Link sx={{ color: "text", mb: 3, textDecoration: "none" }} to="/">
-        Work
-      </Link>
-      <Link
-        sx={{ color: "text", mb: 3, textDecoration: "none" }}
-        to="/photography"
-      >
-        Photography
-      </Link>{" "}
-      <Link
-        sx={{ color: "text", mb: 3, textDecoration: "none" }}
-        to="/boneyard"
-      >
-        Boneyard
-      </Link>
-    </React.Fragment>
-  )
-
   return (
     <Layout>
-      <TransitionPortal>
-        <div
-          sx={{
-            zIndex: 1200,
-            backgroundColor: "primary",
-            position: "fixed",
-            width: "40px",
-            height: "40px",
-            borderRadius: "40px",
-            bottom: 3,
-            right: 3,
-            fontSize: 0,
-            lineHeight: "0px",
-            textAlign: "center",
-            justifyContent: "center",
-            alignItems: "center",
-            display: "flex",
-          }}
-          onClick={() => set(!show)}
-        >
-          <span>{!show ? "Menu" : "Close"}</span>
-        </div>
-
-        {transitions.map(
-          ({ item, key, props }) =>
-            item && (
-              <animated.div
-                key={key}
-                style={props}
-                sx={{
-                  width: "100vw",
-                  height: "100vh",
-                }}
-              >
-                <div
-                  sx={{
-                    position: "absolute",
-                    bottom: 0,
-                    backgroundColor: "primary",
-                    width: "100%",
-                    height: "auto",
-                    p: 4,
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
-                >
-                  {MenuLinks()}
-                </div>
-              </animated.div>
-            )
-        )}
-      </TransitionPortal>
-
+      {smallScreen() && <LargeScreenMenu />}
       <Header
         sx={{
           height: ["96px", "128px"],
@@ -149,6 +47,9 @@ const SiteWrapper = ({ children }) => {
             }
           `}
         />
+
+{!smallScreen() && <LargeScreenMenu />}
+
         <h1
           sx={{
             fontFamily: "heading",
@@ -170,33 +71,14 @@ const SiteWrapper = ({ children }) => {
 
       <Transition
         config={config.slow}
-        from={{ opacity: 0, transform : 'translate3d(0%,10%,0)' }}
-        enter={{ opacity: 1,transform : 'translate3d(0%,0,0)' }}
-        leave={{ opacity: 0 ,transform : 'translate3d(0%,-10%,0)'}}
+        from={{ opacity: 0, transform: "translate3d(0%,10%,0)" }}
+        enter={{ opacity: 1, transform: "translate3d(0%,0,0)" }}
+        leave={{ opacity: 0, transform: "translate3d(0%,-10%,0)" }}
       >
         {() => style => <Main style={style}>{children} </Main>}
       </Transition>
 
-      <Footer sx={{ fontSize: 2 }}>
-        <Box sx={{ gridColumn: "2  / span 12", mb: 3 }}>
-          {NetWorkLinks.map(NetWorkLink => {
-            return (
-              <a
-                key={NetWorkLink.url}
-                sx={{ color: "text", mr: 3, textDecoration: "none" }}
-                target="_blank"
-                rel="noopener noreferrer"
-                href={NetWorkLink.url}
-              >
-                {NetWorkLink.name}
-              </a>
-            )
-          })}
-        </Box>
-        <Box sx={{ gridColumn: "2  / span 12" }}>
-          &copy; Thomas Brasington 2006 &ndash; {new Date().getFullYear()}
-        </Box>
-      </Footer>
+      <FooterContent />
     </Layout>
   )
 }

@@ -43,7 +43,7 @@ export default ({ type, assets }) => {
 
       <Actions
         sx={{
-          color: "mutedText",
+          color: "backgroundText",
           fontSize: 2,
           lineHeight: 1.2,
         }}

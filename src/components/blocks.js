@@ -4,6 +4,7 @@ import Img from "gatsby-image"
 import styled from "@emotion/styled"
 import ReactPlayer from "react-player"
 import Gallery from "./gallery"
+import Card from "./card"
 export default ({ data }) => {
   return (() => {
     switch (data.type) {
@@ -54,10 +55,16 @@ export default ({ data }) => {
             key={data.id}
             sx={{
               bg: "muted",
-              py: [3, 5],
+              py: [4, 5],
             }}
           >
-           { data.content.title && <Block><Styled.h2 sx={{color:'backgroundText', mb:[3,4]}}>{data.content.title}</Styled.h2></Block>}
+            {data.content.title && (
+              <Block>
+                <Styled.h2 sx={{ color: "backgroundText", mb: [3, 4] }}>
+                  {data.content.title}
+                </Styled.h2>
+              </Block>
+            )}
             <Gallery
               type={data.content.galleryType}
               assets={data.childrenMedia}
@@ -91,39 +98,17 @@ export default ({ data }) => {
           <CardWrapper
             key={data.id}
             sx={{
-              gridColumn:['1 / span 12', data.content.fullwidth ? "1 / span 12" : "span 6"],
+              gridColumn: [
+                "1 / span 12",
+                data.content.fullwidth ? "1 / span 12" : "span 6",
+              ],
               bg: data.content.fullwidth ? "accent" : "transparent",
               py: data.content.fullwidth ? [5, 6] : 0,
-              px : [4,0],
+              px: [4, 0],
               mb: [4, 6],
             }}
-           
           >
-             <CardContent
-              fullwidth={data.content.fullwidth}
-              className={
-                data.content.fullwidth ? "card-full" : "card-half"
-              }>
-              <CardAsset fullwidth={data.content.fullwidth} sx={{ mb: [3, 3],   pl : [0,data.content.fullwidth ? 6 : 0]  }}>
-                <Img
-                  fluid={data.childrenMedia[0].media.childImageSharp.fluid}
-                />
-              </CardAsset>
-              <CardText fullwidth={data.content.fullwidth}>
-                <Styled.h5 sx={{mb:3}}>{data.content.title}</Styled.h5>
-                <p sx={{ color: "mutedText" }}>
-                  {data.content.short_description}
-                  {data.content.url.length > 0 && (
-                    <a
-                      sx={{ color: "mutedText", pt: [3,5] }}
-                      href={data.content.url}
-                    >
-                      Read more
-                    </a>
-                  )}
-                </p>
-              </CardText>
-            </CardContent>
+            <Card data={data} />
           </CardWrapper>
         )
       default:
@@ -139,16 +124,15 @@ const Block = styled.div`
 `
 const InlineAsset = styled.div``
 const InlineAssetWrapper = styled.div``
-
 const InlineVideoWrapper = styled.div``
 
 const TextWrapper = styled(Block)`
   grid-column: 2 / span 10;
-
   h2 {
-    grid-column: 1 / span 3;
-    margin-bottom: ${props => props.theme.space[2]}px;
+    grid-column: 1 / span 10;
+    margin-bottom: ${props => props.theme.space[3]}px;
     @media (min-width: ${props => props.theme.breakpoints[0]}) {
+      grid-column: 1 / span 3;
       margin-bottom: ${props => props.theme.space[4]}px;
     }
   }
@@ -156,9 +140,10 @@ const TextWrapper = styled(Block)`
   h3,
   h4,
   h5 {
-    grid-column: 4 / span 8;
+    grid-column: 1 / span 11;
     margin-bottom: ${props => props.theme.space[2]}px;
     @media (min-width: ${props => props.theme.breakpoints[0]}) {
+      grid-column: 4 / span 8;
       margin-bottom: ${props => props.theme.space[4]}px;
     }
   }
@@ -191,51 +176,19 @@ const MosaicBlock = styled.div`
 `
 
 const CardWrapper = styled(Block)`
-
-div  {
-
-  grid-column: 1 / span 12;
-}
-@media (min-width: ${props => props.theme.breakpoints[0]}) {
-  .card-full  {
-    grid-column:  2 / span 10;
+  div {
+    grid-column: 1 / span 12;
   }
-  .card-half  {
-    grid-column: 3 / span 9;
-  }
-  
-  & + & > .card-half  {
-    grid-column: 2 / span 9;
-  }
-}
-`
-const CardContent = styled.div`
-
-  @media (min-width: ${props => props.theme.breakpoints[0]}) { 
-    display: flex;
-    flex-direction: ${props => (props.fullwidth ? "row-reverse" : "column")};
-  }
-`
-const CardAsset = styled.div`
-@media (min-width: ${props => props.theme.breakpoints[0]}) {
-  width: ${props => (props.fullwidth ? "50%" : "100%")};
-}
-`
-const CardText = styled.div`
-
   @media (min-width: ${props => props.theme.breakpoints[0]}) {
-    display: flex;
-    flex-direction: column;
-    width: ${props => (props.fullwidth ? "50%" : "100%")};
-    justify-content: ${props => (props.fullwidth ? "center" : "flex-start")};
-  }
+    .card-full {
+      grid-column: 2 / span 10;
+    }
+    .card-half {
+      grid-column: 3 / span 9;
+    }
 
-  a {
-    display: block;
-    text-decoration: none;
-  }
-
-  a:hover {
-    color: ${props => props.theme.colors.hover};
+    & + & > .card-half {
+      grid-column: 2 / span 9;
+    }
   }
 `

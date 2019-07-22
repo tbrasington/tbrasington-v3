@@ -67,10 +67,10 @@ function SEO({ description, lang, meta, title }) {
           name: `twitter:description`,
           content: metaDescription,
         },
-      ].concat(meta)}>
-        <link rel="stylesheet" href="https://use.typekit.net/mbd4oga.css"></link>
-      </Helmet>
-
+      ].concat(meta)}
+    >
+      <link rel="stylesheet" href="https://use.typekit.net/mbd4oga.css"></link>
+    </Helmet>
   )
 }
 

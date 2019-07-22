@@ -3,13 +3,13 @@ import { Link } from "gatsby"
 import PropTypes from "prop-types"
 import React from "react"
 
-import { jsx, Box } from 'theme-ui'
+import { jsx, Box } from "theme-ui"
 
 const Header = ({ siteTitle }) => (
   <Box
     sx={{
-      color: 'white',
-      bg: 'primary',
+      color: "white",
+      bg: "primary",
       fontSize: 4,
     }}
   >
