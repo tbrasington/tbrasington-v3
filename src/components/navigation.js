@@ -70,7 +70,7 @@ export const renderLinks = (linkData, styles) => {
       <Link
         key={linkItem.url}
         to={linkItem.url}
-        sx={{ color: "inherit", textDecoration: "none", `:hover { color : 'red' }`  ...styles }}
+        sx={{ color: "inherit", textDecoration: "none",  ...styles }}
       >
         {linkItem.name}
       </Link>
