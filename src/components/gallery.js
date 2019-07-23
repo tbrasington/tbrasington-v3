@@ -27,8 +27,8 @@ export default ({ type, assets }) => {
   }
 
   return (
-    <Container type={type}>
-      <Item
+    <div type={type}>
+      <div
         key={String(assets[position].id)}
         onClick={forwards}
         sx={{
@@ -39,7 +39,7 @@ export default ({ type, assets }) => {
           fluid={assets[position].media.childImageSharp.fluid}
           alt={assets[position].alt_text}
         />
-      </Item>
+      </div>
 
       <Actions
         sx={{
@@ -77,12 +77,11 @@ export default ({ type, assets }) => {
           />
         </Arrows>
       </Actions>
-    </Container>
+    </div>
   )
 }
 
-const Container = styled.div``
-const Item = styled.div``
+
 const Caption = styled.div`
   flex: 1;
 `

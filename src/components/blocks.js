@@ -21,8 +21,9 @@ export default ({ data }) => {
         )
       case "image":
         return data.childrenMedia.map(media => {
-          return media.role === "image" ? (
-            <InlineAsset key={data.id}>
+ 
+          return media.type === "image" ? (
+            <InlineAsset key={data.id} sx={{width : (data.content.imageSize===2 ? '50%':'100%')}}>
               <InlineAssetWrapper>
                 <Img fluid={media.media.childImageSharp.fluid} />
               </InlineAssetWrapper>
@@ -127,24 +128,31 @@ const InlineAssetWrapper = styled.div``
 const InlineVideoWrapper = styled.div``
 
 const TextWrapper = styled(Block)`
-  grid-column: 2 / span 10;
   h2 {
-    grid-column: 1 / span 10;
+    grid-column: 2 / span 10;
     margin-bottom: ${props => props.theme.space[3]}px;
     @media (min-width: ${props => props.theme.breakpoints[0]}) {
-      grid-column: 1 / span 3;
+      grid-column: 2 / span 3;
       margin-bottom: ${props => props.theme.space[4]}px;
+    }
+    @media (min-width: ${props => props.theme.breakpoints[0]}) {
+      grid-column: 2 / span 2;
     }
   }
   p,
   h3,
   h4,
   h5 {
-    grid-column: 1 / span 11;
+    grid-column: 2 / span 10;
     margin-bottom: ${props => props.theme.space[2]}px;
+
     @media (min-width: ${props => props.theme.breakpoints[0]}) {
-      grid-column: 4 / span 8;
+      grid-column: 5 / span 6;
       margin-bottom: ${props => props.theme.space[4]}px;
+    }
+
+    @media (min-width: ${props => props.theme.breakpoints[1]}) {
+      grid-column: 4 / span 6;
     }
   }
 `

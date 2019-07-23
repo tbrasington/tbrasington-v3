@@ -69,7 +69,8 @@ exports.sourceNodes = (
         content: nodeContent,
         contentDigest: createContentDigest(media),
       },
-      media: null,
+      media: null, 
+      type: media.pivot.role
     })
     return nodeData
   }

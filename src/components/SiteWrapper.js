@@ -23,7 +23,7 @@ const SiteWrapper = ({ children }) => {
 
   return (
     <Layout>
-      {smallScreen() && <LargeScreenMenu />}
+      {smallScreen() && <SmallScreenMenu />}
       <Header
         sx={{
           height: ["96px", "128px"],
@@ -48,7 +48,7 @@ const SiteWrapper = ({ children }) => {
           `}
         />
 
-{!smallScreen() && <LargeScreenMenu />}
+          {!smallScreen() && <LargeScreenMenu />}
 
         <h1
           sx={{
