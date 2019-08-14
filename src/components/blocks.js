@@ -21,31 +21,29 @@ export default ({ data }) => {
         )
       case "image":
         return data.childrenMedia.map(media => {
- 
           return media.type === "image" ? (
-            <InlineAsset key={data.id} sx={{width : (data.content.imageSize===2 ? '50%':'100%')}}>
-              <InlineAssetWrapper>
-                <Img fluid={media.media.childImageSharp.fluid} />
-              </InlineAssetWrapper>
-            </InlineAsset>
+            <InlineAssetWrapper
+              key={data.id}
+              fullBleed={data.content.imageSize}
+            >
+              <Img fluid={media.media.childImageSharp.fluid} />
+            </InlineAssetWrapper>
           ) : null
         })
       case "video":
         return data.childrenFiles.map(media => {
           return (
-            <InlineAsset key={media.file_id}>
-              <InlineVideoWrapper>
-                <ReactPlayer
-                  url={media.file.publicURL}
-                  controls={true}
-                  loop={true}
-                  playing={data.content.autoplay}
-                  width="100%"
-                  height="100%"
-                  className="react-player"
-                />
-              </InlineVideoWrapper>
-            </InlineAsset>
+            <InlineVideoWrapper key={media.file_id}>
+              <ReactPlayer
+                url={media.file.publicURL}
+                controls={true}
+                loop={true}
+                playing={data.content.autoplay}
+                width="100%"
+                height="100%"
+                className="react-player"
+              />
+            </InlineVideoWrapper>
           )
           //return <video url={media.publicURL}></video>
           // console.log(media.file.publicURL)
@@ -74,24 +72,29 @@ export default ({ data }) => {
         )
       case "mosaic":
         return (
-          <InlineAsset key={data.id}>
-            <MosaicWrapper>
-              {data.childrenBlock.map(block => {
-                return (
-                  <MosaicBlock key={block.id} columns={block.content.columns}>
-                    {block.childrenMedia.map(media => {
-                      return (
-                        <Img
-                          key={media.id}
-                          fluid={media.media.childImageSharp.fluid}
-                        />
-                      )
-                    })}
-                  </MosaicBlock>
-                )
-              })}
-            </MosaicWrapper>
-          </InlineAsset>
+          <Block key={data.id}>
+            {data.childrenBlock.map(block => {
+              return (
+                <MosaicBlock
+                  key={block.id}
+                  sx={{
+                    gridColumn: `span ${block.content.columns}`,
+                    px : (block.content.imageSize ===2  ? [3,5] : 0),
+                    py : (block.content.imageSize ===2  ? [3,5]:0)
+                  }}
+                >
+                  {block.childrenMedia.map(media => {
+                    return (
+                      <Img
+                        key={media.id}
+                        fluid={media.media.childImageSharp.fluid}
+                      />
+                    )
+                  })}
+                </MosaicBlock>
+              )
+            })}
+          </Block>
         )
 
       case "card":
@@ -123,19 +126,32 @@ const Block = styled.div`
   display: grid;
   grid-template-columns: repeat(12, 1fr);
 `
-const InlineAsset = styled.div``
-const InlineAssetWrapper = styled.div``
+
+const InlineAssetWrapper = styled(Block)`
+  background-color: ${props => props.theme.colors.lightGrey};
+  padding: ${props => (props.fullBleed === 2 ? `${props.theme.space[5]}px` : 0)}
+    0;
+  div {
+    grid-column: ${props =>
+      props.fullBleed === 2 ? "4 / span 6" : "1 / span 12"};
+  }
+`
 const InlineVideoWrapper = styled.div``
 
 const TextWrapper = styled(Block)`
   h2 {
     grid-column: 2 / span 10;
     margin-bottom: ${props => props.theme.space[3]}px;
+
     @media (min-width: ${props => props.theme.breakpoints[0]}) {
-      grid-column: 2 / span 3;
+      grid-column: 3 / span 3;
       margin-bottom: ${props => props.theme.space[4]}px;
     }
-    @media (min-width: ${props => props.theme.breakpoints[0]}) {
+    
+    @media (min-width: ${props => props.theme.breakpoints[1]}) {
+      grid-column: 2 / span 2;
+    }
+    @media (min-width: ${props => props.theme.breakpoints[2]}) {
       grid-column: 2 / span 2;
     }
   }
@@ -147,11 +163,15 @@ const TextWrapper = styled(Block)`
     margin-bottom: ${props => props.theme.space[2]}px;
 
     @media (min-width: ${props => props.theme.breakpoints[0]}) {
-      grid-column: 5 / span 6;
+      grid-column: 3 / span 8;
+      margin-bottom: ${props => props.theme.space[4]}px;
+    }
+    @media (min-width: ${props => props.theme.breakpoints[1]}) {
+      grid-column: 4 / span 7;
       margin-bottom: ${props => props.theme.space[4]}px;
     }
 
-    @media (min-width: ${props => props.theme.breakpoints[1]}) {
+    @media (min-width: ${props => props.theme.breakpoints[2]}) {
       grid-column: 4 / span 6;
     }
   }
@@ -162,24 +182,11 @@ const GalleryWrapper = styled(Block)`
   }
 `
 
-const MosaicWrapper = styled(InlineAssetWrapper)`
-  display: grid;
-  grid-gap: ${2 * 2}px;
-  grid-row-gap: ${2 * 4}px;
-  grid-template-columns: repeat(12, 1fr);
-  grid-auto-rows: minmax(50px, auto);
-  @media (min-width: 1024px) {
-    grid-gap: ${2 * 8}px;
-    grid-row-gap: ${2 * 16}px;
-    grid-template-columns: repeat(12, 1fr);
-  }
-`
 const MosaicBlock = styled.div`
-  grid-column: auto / span 2;
   display: flex;
   .gatsby-image-wrapper {
     flex: 1;
-    align-self: flex-end;
+    align-self: center;
   }
 `
 

@@ -21,7 +21,7 @@ export const nameSpacedColours = {
 
 export default {
   space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
-  breakpoints: ["1024px","1650px"],
+  breakpoints: ["768px","1024px","1650px"],
   fonts: {
     body: "neue-haas-unica, system-ui, sans-serif",
     heading: "neue-haas-unica, system-ui, sans-serif",
@@ -39,6 +39,7 @@ export default {
     heading: 1.125,
   },
   colors: {
+    ...nameSpacedColours, 
     text: nameSpacedColours.offWhite,
     backgroundText: nameSpacedColours.black,
     hover: nameSpacedColours.offWhite,
@@ -71,34 +72,34 @@ export default {
     },
     h1: {
       ...heading,
-      fontSize: [11, 11, 6],
+      fontSize: [11, 11,11, 6],
     },
     h2: {
       ...heading,
-      fontSize: [10, 10, 5],
+      fontSize: [10, 10,10, 5],
     },
     h3: {
       ...heading,
-      fontSize: [9,9, 4],
+      fontSize: [9,9,9,4],
     },
     h4: {
       ...heading,
-      fontSize: [8,8, 3],
+      fontSize: [8,8,8,3],
     },
     h5: {
       ...heading,
-      fontSize: [7, 7,2],
+      fontSize: [7,7,7,2],
     },
     h6: {
       ...heading,
-      fontSize: [6,6, 1],
+      fontSize: [6,6,6,1],
     },
     p: {
       color: "text",
       fontFamily: "body",
       fontWeight: "body",
       lineHeight: "body",
-      fontSize: [5,5, 2],
+      fontSize: [5,5,5,2],
     },
     a: {
       color: "primary",
@@ -135,7 +136,7 @@ export default {
     Footer: {
       display: "grid",
       gridTemplateColumns: "repeat(12, 1fr)",
-      paddingBottom: [5, 6],
+      py: [5, 6],
     },
   },
   textStyles: {

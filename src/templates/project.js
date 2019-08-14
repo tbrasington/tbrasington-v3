@@ -2,7 +2,7 @@
 
 import { graphql } from "gatsby"
 import Image from "gatsby-image"
-import { Styled,  jsx } from "theme-ui"
+import { Styled, jsx } from "theme-ui"
 import styled from "@emotion/styled"
 import SiteWrapper from "../components/SiteWrapper"
 import SEO from "../components/seo"
@@ -35,6 +35,23 @@ export const query = graphql`
           galleryType
           imageSize
         }
+        childrenBlock {
+          blockable_id
+          content {
+            columns
+            imageSize
+          }
+          childrenMedia {
+            id
+            media {
+              childImageSharp {
+                fluid(maxWidth: 3000, quality: 100) {
+                  ...GatsbyImageSharpFluid
+                }
+              }
+            }
+          }
+        }
         childrenMedia {
           id
           media {
@@ -56,33 +73,32 @@ export const query = graphql`
     }
   }
 `
-const Container  = styled.div`
-grid-column: 1 / span 12;
+const Container = styled.div`
+  grid-column: 1 / span 12;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
 `
-
-const BlockBox = styled.div`
-width:100%;
-`
-
 
 const Project = ({ data }) => {
   const project = data.projects
-
   return (
     <SiteWrapper>
       <SEO title={project.title} />
 
       <Container>
-      <Image
-        fluid={project.childrenMedia[0].media.childImageSharp.fluid}
-        alt={project.title}
-        style={{ float: "left", marginRight: "1rem", width: "100%" }}
-      />
+        {project.childrenMedia.length > 0 && (
+          <Image
+            fluid={project.childrenMedia[0].media.childImageSharp.fluid}
+            alt={project.title}
+            sx={{ float: "left", marginRight: "1rem", width: "100%", gridColumn : 'span 12' }}
+          />
+        )}
 
-      <Styled.h1 sx={{textAlign:'center'}}>{project.title}</Styled.h1>
+        <Styled.h1 sx={{ gridColumn : ['2 / span 4','3 / span 4','4 / span 4']}}>{project.title}</Styled.h1>
 
-      <p sx={{}}>{project.description}</p>
-         {project.childrenBlock.map(block => {
+        <p sx={{}}>{project.description}</p>
+
+        {project.childrenBlock.map(block => {
           return renderBlocks({ data: block })
         })}
       </Container>
