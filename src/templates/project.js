@@ -90,11 +90,11 @@ const Project = ({ data }) => {
           <Image
             fluid={project.childrenMedia[0].media.childImageSharp.fluid}
             alt={project.title}
-            sx={{ float: "left", marginRight: "1rem", width: "100%", gridColumn : 'span 12' }}
+            sx={{ float: "left", width: "100%", gridColumn : 'span 12' }}
           />
         )}
 
-        <Styled.h1 sx={{ gridColumn : ['2 / span 4','3 / span 4','4 / span 4']}}>{project.title}</Styled.h1>
+        <Styled.h1 sx={{ gridColumn : ['2 / span 4','3 / span 4','4 / span 4'], mt:[4,5]}}>{project.title}</Styled.h1>
 
         <p sx={{}}>{project.description}</p>
 

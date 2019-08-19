@@ -144,7 +144,7 @@ const TextWrapper = styled(Block)`
     margin-bottom: ${props => props.theme.space[3]}px;
 
     @media (min-width: ${props => props.theme.breakpoints[0]}) {
-      grid-column: 3 / span 3;
+      grid-column: 2 / span 3;
       margin-bottom: ${props => props.theme.space[4]}px;
     }
     
@@ -163,7 +163,7 @@ const TextWrapper = styled(Block)`
     margin-bottom: ${props => props.theme.space[2]}px;
 
     @media (min-width: ${props => props.theme.breakpoints[0]}) {
-      grid-column: 3 / span 8;
+      grid-column: 2 / span 8;
       margin-bottom: ${props => props.theme.space[4]}px;
     }
     @media (min-width: ${props => props.theme.breakpoints[1]}) {

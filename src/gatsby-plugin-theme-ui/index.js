@@ -73,6 +73,7 @@ export default {
     h1: {
       ...heading,
       fontSize: [11, 11,11, 6],
+      mb : 2
     },
     h2: {
       ...heading,
