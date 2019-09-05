@@ -14,7 +14,6 @@ export const query = graphql`
       title
       short_description
       description
-
       childrenMedia {
         id
         media {
@@ -24,7 +23,7 @@ export const query = graphql`
             }
           }
         }
-        role
+        
         alt_text
       }
       childrenBlock {
@@ -61,7 +60,6 @@ export const query = graphql`
               }
             }
           }
-          role
           type
           alt_text
 
@@ -94,9 +92,9 @@ const Project = ({ data }) => {
           />
         )}
 
-        <Styled.h1 sx={{ gridColumn : ['2 / span 4','3 / span 4','4 / span 4'], mt:[4,5]}}>{project.title}</Styled.h1>
+        <Styled.h1 sx={{ gridColumn : ['2 / span 4','2 / span 8','4 / span 4','4 / span 4'], mt:[4,5]}}>{project.title}</Styled.h1>
 
-        <p sx={{}}>{project.description}</p>
+        <Styled.h4 sx={{ gridColumn : ['2 / span 8','2 / span 8', '4 / span 8', '4 / span 6'  ], mt:[4,5]}}>{project.description}</Styled.h4>
 
         {project.childrenBlock.map(block => {
           return renderBlocks({ data: block })

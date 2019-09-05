@@ -29,12 +29,10 @@ export const query = graphql`
               }
             }
           }
-          role
           alt_text
           pivot {
             metadatas
           }
-          role
         }
       }
     }

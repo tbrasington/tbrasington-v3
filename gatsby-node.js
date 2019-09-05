@@ -3,7 +3,9 @@ require("dotenv").config({
 })
 const fetch = require("node-fetch")
 const { createRemoteFileNode } = require(`gatsby-source-filesystem`)
-const server = process.env.API_URL
+
+const server = process.env.API_URL;
+const aws_url = process.env.AWS_BUCKET_URL;
 
 exports.sourceNodes = ({ actions, createNodeId, createContentDigest }) => {
   const { createNode, createParentChildLink } = actions
@@ -160,22 +162,39 @@ exports.createPages = async ({ actions: { createPage }, graphql }) => {
         edges {
           node {
             slug
+            isHomepage
           }
         }
       }
     }
   `)
   //extract this
+  // project files
   results.data.allProjects.edges.forEach(edge => {
     const project = edge.node
-
+    
     createPage({
-      path: `/${project.slug}/`,
+      path: `/project/${project.slug}/`,
       component: require.resolve("./src/templates/project.js"),
       context: {
         slug: project.slug,
       },
     })
+  })
+
+  // pages
+  results.data.allPages.edges.forEach(edge => {
+    const projects = edge.node
+    if(projects.isHomepage===false) {
+
+      createPage({
+        path: `/${projects.slug}`,
+        component: require.resolve("./src/templates/project.js"),
+        context: {
+          slug: projects.slug,
+        },
+      })
+    }
   })
 }
 
@@ -184,14 +203,20 @@ exports.onCreateNode = async ({ node, actions, store, cache }) => {
   const { createNode } = actions
 
   if (node.internal.type === "Media" || node.internal.type === "Cover") {
-    const fileNode = await createRemoteFileNode({
-      url: server + node.uuid,
-      store,
-      cache,
-      parentNodeId: node.id,
-      createNode,
-      createNodeId: media_id => `block-files-image-sharp-${media_id}`,
-    })
+    let fileNode;
+    try {
+        fileNode = await createRemoteFileNode({
+          url: aws_url + node.uuid,
+          store,
+          cache,
+          parentNodeId: node.id,
+          createNode,
+          createNodeId: media_id => `block-files-image-sharp-${media_id}`,
+        })
+      } catch (e) {
+        // Ignore
+        console.log(e)
+      }
     if (fileNode) {
       // at field image
       node.media___NODE = fileNode.id
