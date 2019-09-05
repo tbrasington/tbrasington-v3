@@ -185,11 +185,10 @@ exports.createPages = async ({ actions: { createPage }, graphql }) => {
   // pages
   results.data.allPages.edges.forEach(edge => {
     const projects = edge.node
-    if(projects.isHomepage===false) {
-
+    if(!projects.isHomepage) {
       createPage({
-        path: `/${projects.slug}`,
-        component: require.resolve("./src/templates/project.js"),
+        path: `/${projects.slug}/`,
+        component: require.resolve("./src/templates/page.js"),
         context: {
           slug: projects.slug,
         },

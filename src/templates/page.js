@@ -1,8 +1,7 @@
 /** @jsx jsx */
 
 import { graphql } from "gatsby"
-import Image from "gatsby-image"
-import { Styled, jsx } from "theme-ui"
+import { Styled, jsx ,Box} from "theme-ui"
 import styled from "@emotion/styled"
 import SiteWrapper from "../components/SiteWrapper"
 import SEO from "../components/seo"
@@ -10,22 +9,10 @@ import renderBlocks from "../components/blocks"
 
 export const query = graphql`
   query($slug: String!) {
-    projects(slug: { eq: $slug }) {
+    pages(slug: { eq: $slug }) {
       title
-      short_description
       description
-      childrenMedia {
-        id
-        media {
-          childImageSharp {
-            fluid(maxWidth: 3000, quality: 100) {
-              ...GatsbyImageSharpFluid
-            }
-          }
-        }
-        
-        alt_text
-      }
+
       childrenBlock {
         id
         type
@@ -82,26 +69,51 @@ const Container = styled.div`
   grid-template-columns: repeat(12, 1fr);
 `
 
-const Project = ({ data }) => {
-  const project = data.projects
+const page = ({ data }) => {
+  const page = data.pages
+
   return (
     <SiteWrapper>
-      <SEO title={project.title} />
+      <SEO title={page.title} />
+
+      <Box
+      sx={{
+        gridColumn: "2 / span 10",
+        py: [3, 5],
+      }}
+    >
+     <Styled.h1
+          sx={{
+            gridColumn: [
+              "2 / span 4",
+              "2 / span 8",
+              "4 / span 4",
+              "4 / span 4",
+            ],
+          }}
+        >
+          {page.title}
+        </Styled.h1>
+
+        <Styled.p
+          sx={{
+            gridColumn: [
+              "2 / span 8",
+              "2 / span 8",
+              "4 / span 8",
+              "4 / span 6",
+            ],
+            mt: [2,3],
+          }}
+        >
+          {page.description}
+        </Styled.p>
+    </Box>
 
       <Container>
-        {project.childrenMedia !==undefined && project.childrenMedia.length > 0 && (
-          <Image
-            fluid={project.childrenMedia[0].media.childImageSharp.fluid}
-            alt={project.title}
-            sx={{ float: "left", width: "100%", gridColumn : 'span 12' }}
-          />
-        )}
+       
 
-        <Styled.h1 sx={{ gridColumn : ['2 / span 4','2 / span 8','4 / span 4','4 / span 4'], mt:[4,5]}}>{project.title}</Styled.h1>
-
-        <Styled.h4 sx={{ gridColumn : ['2 / span 8','2 / span 8', '4 / span 8', '4 / span 6'  ], mt:[4,5]}}>{project.description}</Styled.h4>
-
-        {project.childrenBlock.map(block => {
+        {page.childrenBlock.map(block => {
           return renderBlocks({ data: block })
         })}
       </Container>
@@ -109,4 +121,4 @@ const Project = ({ data }) => {
   )
 }
 
-export default Project
+export default page

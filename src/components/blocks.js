@@ -76,7 +76,7 @@ export default ({ data }) => {
             {data.childrenBlock.map(block => {
               return (
                 <MosaicBlock
-                  key={block.id}
+                  key={data.id +block.id}
                   sx={{
                     gridColumn: `span ${block.content.columns}`,
                     px : (block.content.imageSize ===2  ? [3,5] : 0),

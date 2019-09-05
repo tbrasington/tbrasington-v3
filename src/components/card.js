@@ -50,8 +50,8 @@ export default ({ data }) => {
       <CardText fullwidth={data.content.fullwidth}>
         <Styled.h5 sx={{ mb: [2, 3] }}>{data.content.title}</Styled.h5>
         <p sx={{ color: "mutedText" }}>
-          {data.content.short_description}
-          {data.content.url.length > 0 && (
+          {data.content.short_description && data.content.short_description}
+          {data.content.url && data.content.url.length > 0 && (
             <a sx={{ color: "mutedText", pt: [3, 5] }} href={data.content.url}>
               Read more
             </a>
