@@ -25,6 +25,7 @@ export default ({ data }) => {
             <InlineAssetWrapper
               key={data.id}
               fullBleed={data.content.imageSize}
+              sx={{mb: [3, 5]}}
             >
               <Img fluid={media.media.childImageSharp.fluid} />
             </InlineAssetWrapper>
@@ -104,12 +105,12 @@ export default ({ data }) => {
             sx={{
               gridColumn: [
                 "1 / span 12",
-                data.content.fullwidth ? "1 / span 12" : "span 6",
+                data.content.fullwidth === 'pullout' ||  data.content.fullwidth === 'full'  ? "1 / span 12" : "span 6",
               ],
-              bg: data.content.fullwidth ? "accent" : "transparent",
-              py: data.content.fullwidth ? [5, 6] : 0,
+              bg: data.content.fullwidth ==='pullout' ? "accent" : "transparent",
+              py: data.content.fullwidth === 'pullout' ? [5, 6] : 0,  
               px: [4, 0],
-              mb: [4, 6],
+              mb: [4, 5],
             }}
           >
             <Card data={data} />
@@ -129,8 +130,7 @@ const Block = styled.div`
 
 const InlineAssetWrapper = styled(Block)`
   background-color: ${props => props.theme.colors.lightGrey};
-  padding: ${props => (props.fullBleed === 2 ? `${props.theme.space[5]}px` : 0)}
-    0;
+  padding: ${props => (props.fullBleed === 2 ? `${props.theme.space[5]}px` : 0)};
   div {
     grid-column: ${props =>
       props.fullBleed === 2 ? "4 / span 6" : "1 / span 12"};

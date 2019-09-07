@@ -97,7 +97,7 @@ const Project = ({ data }) => {
           />
         )}
 
-        <Styled.h1 sx={{ gridColumn : ['2 / span 4','2 / span 8','4 / span 4','4 / span 4'], mt:[4,5]}}>{project.title}</Styled.h1>
+        <Styled.h1 sx={{ gridColumn : ['2 / span 4','2 / span 8','4 / span 6','4 / span 6'], mt:[4,5]}}>{project.title}</Styled.h1>
 
         <Styled.h4 sx={{ gridColumn : ['2 / span 8','2 / span 8', '4 / span 8', '4 / span 6'  ], mt:[4,5]}}>{project.description}</Styled.h4>
 
